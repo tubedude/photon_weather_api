@@ -1,0 +1,11 @@
+{
+  "event": "weatherU_hook",
+  "url": "http://api.wunderground.com/api/{{WEATHER UNDERGROUND API KEY}}/forecast/q/zmw:00000.100.83779.json",
+  "requestType": "GET",
+  "headers": null,
+  "query": null,
+  "responseTemplate": "{{#forecast}}{{#simpleforecast}}{{#forecastday}}{{date.day}}~{{date.hour}}~{{conditions}}~{{pop}}@{{/forecastday}}{{/simpleforecast}}{{/forecast}}",
+  "json": null,
+  "auth": null,
+  "mydevices": true
+}
