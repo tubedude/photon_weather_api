@@ -147,7 +147,7 @@ void defineWeatherStatus(){
   // Search through Clear Weather Array.
   for(int i = 0; i < sizeofClearWeather; i++) {
     Serial.print(".");
-    if(condition.indexOf(CLEAR_WEATHER[i]) > 0) {
+    if(condition.indexOf(CLEAR_WEATHER[i]) >= 0) {
       weatherStatus =+ 2;
 
       Serial.print(" Found a Clear Condition: ");
@@ -155,7 +155,7 @@ void defineWeatherStatus(){
     }
   }
 
-  if(condition.indexOf("thunder") > 0) {
+  if(condition.indexOf("thunder") >= 0) {
       weatherStatus =+ 4;
       Serial.print(" Found a Clear Weather: Thunder");
   }
