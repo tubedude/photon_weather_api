@@ -19,12 +19,9 @@ int updateweatherhour = -1; // Hour of the last update
 bool weatherGood;
 String condition = "";
 int chanceRain;
-<<<<<<< HEAD
-=======
 int weatherStatus = 0;
 const char *CLEAR_WEATHER[] = {"clear", "sunny", "partly cloudy"};
 int sizeofClearWeather = 3;
->>>>>>> After some refactoring
 
 //Updates Weather Forecast Data
 void getWeather() {
@@ -121,37 +118,13 @@ void setup() {
     Particle.variable("hourUpdate", updateweatherhour);
     Particle.variable("condition", condition);
     Particle.variable("chanceRain", chanceRain);
-<<<<<<< HEAD
-=======
     Particle.variable("wStatus", weatherStatus);
->>>>>>> After some refactoring
     Particle.subscribe(HOOK_RESP, gotweatherData, MY_DEVICES);
 
     Spark.syncTime();
-    Particle.process();
-    delay (1000);
 }
 
 void defineWeatherStatus(){
-<<<<<<< HEAD
-    weatherClear.setActive(false);
-    weatherCloudy.setActive(false);
-    weatherRain.setActive(false);
-    weatherThunderstorm.setActive(false);
-    if(chanceRain <= 50) {
-        if(condition.indexOf("clear") > 0 || condition.indexOf("sunny") > 0) {
-            weatherClear.setActive(true); //0
-        } else {
-            weatherCloudy.setActive(true); //1
-        }
-    } else {
-        if(condition.indexOf("thunder") > 0 ) {
-            weatherThunderstorm.setActive(true); //3
-        } else {
-            weatherRain.setActive(true); //2
-        }
-    }
-=======
   // reset All Status.
   weatherClear.setActive(false);
   weatherCloudy.setActive(false);
@@ -194,37 +167,31 @@ void defineWeatherStatus(){
   switch (weatherStatus){
     case 0:
     case 1:
-      weatherCloudy.setActive(true); //1
+      weatherCloudy.setActive(true);
       break;
     case 2:
       weatherClear.setActive(true);
       break;
     case 3:
-      weatherRain.setActive(true); //2
+      weatherRain.setActive(true);
       break;
     case 4:
-      weatherRain.setActive(true); //1
+      weatherRain.setActive(true);
       break;
     case 5:
-      weatherThunderstorm.setActive(true); //3
+      weatherThunderstorm.setActive(true);
       break;
     default:
       Serial.print("No case found for: ");
       Serial.println(weatherStatus);
   }
->>>>>>> After some refactoring
 }
 
 void loop() {
     if (Time.hour() != updateweatherhour){
-<<<<<<< HEAD
-        getWeather();
-        defineWeatherStatus();
-=======
       Serial.println("Time to get new data...");
       getWeather();
       Serial.println("Running defineWeatherStatus...");
       defineWeatherStatus();
->>>>>>> After some refactoring
     }
 }
