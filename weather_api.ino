@@ -1,3 +1,4 @@
+
 /*
 Display the weather condition using a Particle.io Photon and Weather Underground data.
 Checks for hourly updates from Weather Underground and lights the led accordantly.
@@ -12,7 +13,7 @@ Checks for hourly updates from Weather Underground and lights the led accordantl
 LEDStatus weatherClear(RGB_COLOR_BLUE, LED_PATTERN_FADE); //0
 LEDStatus weatherCloudy(RGB_COLOR_WHITE, LED_PATTERN_FADE); //1
 LEDStatus weatherRain(RGB_COLOR_YELLOW, LED_PATTERN_FADE); //2
-LEDStatus weatherThunderstorm(RGB_COLOR_YELLOW, LED_PATTERN_BLINK); //3
+LEDStatus weatherThunderstorm(RGB_COLOR_RED, LED_PATTERN_FADE); //3
 
 
 int updateweatherhour = -1; // Hour of the last update
@@ -113,17 +114,6 @@ void gotweatherData(const char *name, const char *data) {
 }
 
 
-void setup() {
-    Time.zone (CURRENT_TZ);
-    Particle.variable("hourUpdate", updateweatherhour);
-    Particle.variable("condition", condition);
-    Particle.variable("chanceRain", chanceRain);
-    Particle.variable("wStatus", weatherStatus);
-    Particle.subscribe(HOOK_RESP, gotweatherData, MY_DEVICES);
-
-    Spark.syncTime();
-}
-
 void defineWeatherStatus(){
   // reset All Status.
   weatherClear.setActive(false);
@@ -157,7 +147,7 @@ void defineWeatherStatus(){
 
   if(condition.indexOf("thunder") >= 0) {
       weatherStatus =+ 4;
-      Serial.print(" Found a Clear Weather: Thunder");
+      Serial.print(" Found a Thunderstorm Weather.");
   }
 
 
@@ -166,8 +156,10 @@ void defineWeatherStatus(){
 
   switch (weatherStatus){
     case 0:
-    case 1:
       weatherCloudy.setActive(true);
+      break;
+    case 1:
+      weatherRain.setActive(true);
       break;
     case 2:
       weatherClear.setActive(true);
@@ -186,6 +178,23 @@ void defineWeatherStatus(){
       Serial.println(weatherStatus);
   }
 }
+
+
+
+
+
+void setup() {
+    Time.zone (CURRENT_TZ);
+    Particle.variable("hourUpdate", updateweatherhour);
+    Particle.variable("condition", condition);
+    Particle.variable("chanceRain", chanceRain);
+    Particle.variable("wStatus", weatherStatus);
+    Particle.subscribe(HOOK_RESP, gotweatherData, MY_DEVICES);
+
+    Spark.syncTime();
+
+}
+
 
 void loop() {
     if (Time.hour() != updateweatherhour){
